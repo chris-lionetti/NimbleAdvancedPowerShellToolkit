@@ -1,6 +1,6 @@
 @{
-   FormatsToProcess = 'nim.ps1xml'
-   RequiredModules = @('nim')
+   FormatsToProcess = 'NimbleAdvancedPowerShellToolkit.Format.ps1xml'
+   RequiredModules = @('NimblePowerShellToolkit')
  }
 
 <#
@@ -165,6 +165,7 @@ foreach ( $Computer in $ComputerName )
   if ( Get-nsArray -ErrorAction SilentlyContinue ) 
 	 { # validating if an Array is connected$ArrayName
 	   $ArrayName=((Get-nsarray).name)
+	   $c=(get-nsinitiatorgroup).count
 	   Write-host "Validating Connectivitity to Array named = $arrayname"
 	 } else
 	 { # No need to continue if I cant connect to an array.
@@ -208,14 +209,15 @@ foreach ( $Computer in $ComputerName )
   # detect if this servers initiator group already exists
   write-output "Finding if Existing Initiator Group Exists"
   $alreadyExists=$false
-  $counter=$countdown=(get-nsinitiatorgroup).count
   write-verbose "Detected $Counter Initiator Groups on the Array, Checking them now"
-  foreach ($iGroup in (get-nsinitiatorgroup)) 
+  $cd=$c # Countdown = $counter
+  foreach ( $iGroup in get-nsinitiatorgroup ) 
     { # compair my target subnet to each subnet on the array
-      $countdown=$countdown-1
-      $perc= ($counter-$countdown) / $counter * 100
       start-sleep -m 50
-      Write-Progress -activity "Searching Existing Initiator Groups" -status "Progress:" -percentcomplete ( $perc ) -currentoperation $($igroup.name)
+      Write-Progress -activity "Searching Existing Initiator Groups" `
+	                 -status "Progress:" `
+					 -percentcomplete ( ($c-(--$cd)) / $c * 100 ) `
+					 -currentoperation $($igroup.name)
       if ( $name -like $($igroup.name) )
          { # What to do when a parameter subnet matches an array subnet   
 	       write-output "Found Match Checking $name against $($igroup.name)"
@@ -338,7 +340,8 @@ foreach ( $Computer in $ComputerName )
   $skipall=$false
   $description=""
   if ( $r ) # only want to add a value if the iGroup returns valid
-     { $r | add-member -type NoteProperty -name ComputerName -value $computer }
+     { $r | add-member -type NoteProperty -name ComputerName -value $computer
+	   $r.PSObject.TypeNames.Insert(0,'Nimble.InitiatorGroup.Typename')	}
   $returnarray+=$r
 } # end the For Loop
 
@@ -347,85 +350,188 @@ return $returnarray
 } # end the function
 export-modulemember -function New-NimInitiatorGroup
 
+<#
+.SYNOPSIS 
+Retrieves the Initiator Group or collection of Initiator groups on the Nimble Array.
+
+.DESCRIPTION
+An Initiator Group is used to define access for a specific server to access a set of Nimble Storage Volumes. 
+Commonly the name of the Initiator Group will match the hostname of the server and will act as a container for
+the Initiator objects specific to this server which can be set using the followup commnd New-NimInitiator. This
+command will ONLY find existing Initiator group and return them. By using no arguments, the command will return
+the entire set of initiator groups, however, you can choose to use the parameters supplied to only retrieve the 
+relavent initiator groups.
+    
+.PARAMETER Name
+Specifies the common name used to refer to this Initiator Group. This is commonly the same as the hostname 
+of the server. If not specified, the command will default to all. This can be a single name or a list of names
+seperated by commas
+
+.PARAMETER id
+Specifies the array ID used to reference the Initiator Group. This can be a single ID, or a list of IDs seperated
+by commas. 
+
+.INPUTS
+You can pipeline the input from numerous commands that output the computername such as Get-ClusterNode. See examples.
+
+.OUTPUTS
+Command will return the Initator Group Object(s). This Initiator Group object can be pipelined to the next stage 
+of a mapping operation which is to define the individual initiators using the new-NimInitiator command.
+
+.EXAMPLE
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> Get-NimInitiatorGroup
+Validating Connectivitity to Array named = mcs460gx2
+Gathering All Initiator Groups
+
+name             id                                         access_protocol computerName description       
+----             --                                         --------------- ------------ -----------       
+sql-p            0247a5f2220a9575e0000000000000000000000027 iscsi                        My Production Sql Server                  
+sql-c            0247a5f2220a9575e0000000000000000000000034 iscsi     					 My Dev Sql Server
+Oracle-p         0247a5f2220a9575e0000000000000000000000037 iscsi                        My Production Oracle Server                 
+Oracle-c         0247a5f2220a9575e0000000000000000000000044 iscsi     					 My Dev Oracle Server
+
+.EXAMPLE
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> Get-NimInitiatorGroup -name Server1
+
+.EXAMPLE
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> Get-NimInitiatorGroup -name Server1,Server2,Server3
+
+.EXAMPLE
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> Get-NimInitiatorGroup -name Server1 id 1a58cccb25ab411db2000000000000000000000004
+# This will return and initiator with a name of Server1 and additionally the specified id
+
+.EXAMPLE
+This example will create Initiator Groups for ALL of the members of a Windows Cluster using PowerShell Remoting.
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> Get-ClusterNode | ForEach-Object { Get-ClusterNode $_.NodeName | Get-NimInitiatorGroup }
+
+.EXAMPLE
+PS:> Get-NimInitiatorGroup -name sql-p,node2 -id 0247A5f2220A9575E0000000000000000000000034
+Validating Connectivitity to Array named = mcs460gx2
+Found correct Initiator Group, sql-p matches sql-p
+Found correct Initiator Group, 0247A5f2220A9575E0000000000000000000000034 matches 0247a5f2220a9575e0000000000000000000000034
+WARNING: Initiator group that matches name node2 was not found
+
+name                       id                                         access_protocol computerName        description       
+----                       --                                         --------------- ------------        -----------       
+sql-p                      0247a5f2220a9575e0000000000000000000000027 iscsi                                                 
+sql-c                      0247a5f2220a9575e0000000000000000000000034 iscsi                                                 
+#>
 
 function Get-NimInitiatorGroup 
 {
-	    [cmdletBinding(SupportsShouldProcess=$true)]
+	 [cmdletBinding()]
   param
-    (	[string] 
+    (	[parameter ( 	ValueFromPipeline=$True,
+						ValueFromPipelineByPropertyName,
+					 	HelpMessage="Enter a one or more Names seperated by commas.")]
+		[Alias("ComputerName", "Cn", "NodeName", "_SERVER")] 
+		[string[]] 
 		$name="",
 
+		[parameter ( 	HelpMessage="Enter a one or more Initiator Groups.")]
 		[string] 
 		$id=""
 	)
-$r=""
-if ( $name -eq "")
-   { # they want a list of ALL Initiator Groups on the array unless the ID is set
-     if ( $id -eq "" )
-        { # if ID not also set, they want it all 
-		  write-output "Obtaining a list of ALL array Initiator Groups"
-		  $r = get-nsinitiatorgroup
-		} else
-		{ # an ID was sent in, lets see if its valid
-		  Write-verbose "Detecting if the ID is a valid ID"
-		  if ( ($id.length) -eq 42 )
-		     { # It is 42 char long, but might be case sensitive wrong 
-			   write-verbose "ID is of correct length, checking case sensitivity"
-			   foreach($igroup in get-nsinitiatorgroup)
-			      { if ( $igroup.id -eq $id )  
-				       { write-output "Found correct Initiator Group, $id matches $($igroup.id)"
-					     $r=$igroup
-						 break
-					   } else
-					   { write-verbose "searching additional initiator groups, $id does not match $($igroup.id)"
-					   }
-				  }   
-			 } else
-			 { write-warning "The Initiator Group ID is not of the correct format, should be 42 alphanumeric digits"
-		     }
+	
+$returnarray=[system.array]@()
+if ( Get-nsArray -ErrorAction SilentlyContinue ) 
+	 { # validating if an Array is connected$ArrayName
+	   $ArrayName=((Get-nsarray).name)
+	   Write-host "Validating Connectivitity to Array named = $arrayname"
+	   $c=(get-nsinitiatorgroup).count # set the variable used to see progress
+	 } else
+	 { # No need to continue if I cant connect to an array.
+	   write-error "Could not connect to a valid array."
+	   write-error "Use Connect-NSArray to connect."
+	   break
+	 }
+	 
+if ( -not $name)
+	{ Write-verbose "No Name variable was given." 
+	} else
+	{ write-verbose "Name Argument Passed in is $name"
+	  foreach ( $n in $name )
+		{ $cd=$c # countdown = count
+          write-verbose "Detected $Counter Initiator Groups on the Array, Checking them now"
+		  $foundname=$false
+		  foreach ( $igroup in get-NSInitiatorgroup )
+			{ start-sleep -m 25
+			  Write-Progress -activity "Searching Existing Initiator Groups" -status "Progress:" `
+							 -percentcomplete ( ($c-(--$cd)) / $c * 100 ) -currentoperation $($igroup.name)
+              if ( $n -eq $igroup.name)
+				 { write-output "Found correct Initiator Group, $n matches $($igroup.name)"
+				   $r=$igroup
+	               $r.PSObject.TypeNames.Insert(0,'Nimble.InitiatorGroup.Typename')
+				   $returnarray+=$r
+				   $foundname=$true
+				 } else
+				 { write-debug "Initiator compair false - $n not equal to $($igroup.name)"
+				 }			  
+			} 	  
+		  Write-Progress -activity "Searching Existing Initiator Groups" -status "Progress:" -percentcomplete ( 100 )
+		  if ( -not $foundname )
+			{	write-warning "Initiator group that matches name $n was not found"
+			}
 		}
-   } else # the name must be populated	
-   { foreach ( $igroup in get-nsinitiatorgroup )
-         { if ( $igroup.name -eq $name )
-		      { write-output "Found Correct initiator Group by Name, $name matches $($igroup.name)"
-			    $r=$igroup
-				break
-			  } else
-			  { write-verbose "Searching additional initiator groups, $name does not match $)$igroup.name)"
-			  }	
-		 }
-      if ( $r -eq "" ) 
-		 { # still have no name, the name must have been a miss
-		   write-warning "The initiator group name $name was not present on the system"
-		   if ( $id -eq "" )
-		      { # since the name was a miss and the ID is not set, we are going to return nothing}
-			  } else
-			  { # an ID was sent in, lets see if its valid
-		        Write-verbose "Detecting if the ID is a valid ID"
-		        if ( ($id.length) -eq 42 )
-		           { # It is 42 char long, but might be case sensitive wrong 
-			         write-verbose "ID is of correct length, checking case sensitivity"
-			         foreach($igroup in get-nsinitiatorgroup)
-			            { if ( $igroup.id -eq $id )  
-				          { write-output "Found correct Initiator Group, $id matches $($igroup.id)"
-				 	        $r=$igroup
-				 		    break
-				 	      } else
-				 	      { write-verbose "searching additional initiator groups, $id does not match $($igroup.id)"
-					      }
-						}
-			       } else
-			       { write-warning "The Initiator Group ID is not of the correct format, should be 42 alphanumeric digits"
-		           }
-		      }
-	     }
-	}
-	# $defaultdisplayset="name","id"
-	# $defaultdisplaypropertyset=new-object system-management.automation.PSPropertyset('DefaultDisplayPropertySet',[string[]]$defaultdisplayset)
-	# $psstandardmembers=[system.management.automation.psmemberinfo[]]@($defaultdisplaypropertyset)
-	# $r | add-member memberset psstandardmembers $psstandardmembers
-	$X=$r.psobject.typenames.insert(0,"InitiatorGroup")
-return $r
+    }
+if ( -not $id)
+	{ # then 
+	  Write-Verbose "No Id's were give to search for."
+	} else
+	{ # else 
+	  foreach ( $idd in $id )
+		{ $cd=$c # countdown = count
+          write-verbose "Detected $Counter Initiator Groups on the Array, Checking them now"
+		  $foundid=$false
+		  foreach ( $igroup in get-NSInitiatorgroup )
+			{ start-sleep -m 25
+			  Write-Progress -activity "Searching Existing Initiator Groups" `
+							 -status "Progress:" `
+							 -percentcomplete ( ($c-(--$cd)) / $c * 100 ) `
+							 -currentoperation $($igroup.id)
+              if ( $idd -eq $igroup.id )
+				 { # then
+				   $r=$igroup
+				   write-output "Found correct Initiator Group, $idd matches $($igroup.id)"
+				   $r.PSObject.TypeNames.Insert(0,'Nimble.InitiatorGroup.Typename')
+				   $returnarray+=$r
+				   $foundID=$true
+				 } else
+				 { # else
+				   write-debug "Initiator compair false - $idd not equal to $($igroup.id)"
+				 }			  
+			} 	  
+		  Write-Progress -activity "Searching Existing Initiator Groups" -status "Progress:" -percentcomplete ( 100 )
+		  if ( -not $foundid )
+			{ write-warning "Initiator Group that matches id $idd was not found"
+			}
+		}
+    }
+
+if ( -not $name -and -not $id )
+		{ # They must want Everything 
+		  write-host "Gathering All Initiator Groups"
+		  $cd=$c # countdown=counter
+          write-verbose "Detected $Counter Initiator Groups on the Array, Checking them now"
+		  foreach ( $igroup in get-NSInitiatorgroup )
+			{ $r=$igroup
+			  start-sleep -m 25
+			  Write-Progress -activity "Gathering Existing Initiator Groups" `
+							 -status "Progress:" `
+							 -percentcomplete ( ($c-(--$cd)) / $counter * 100 ) `
+							 -currentoperation $($igroup.name)
+	          $r.PSObject.TypeNames.Insert(0,'Nimble.InitiatorGroup.Typename')
+			  $returnarray+=$r			  
+			} 	  
+		  Write-Progress -activity "Gathering Finished for Initiator Groups" -status "Progress:" -percentcomplete ( 100 )
+		}
+		
+return $returnarray
 }
 export-modulemember -function Get-NimInitiatorGroup 	
 	

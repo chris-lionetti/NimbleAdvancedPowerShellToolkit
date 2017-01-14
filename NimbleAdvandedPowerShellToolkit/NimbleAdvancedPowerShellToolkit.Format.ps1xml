@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
     <ViewDefinitions>
-        <View>
-            <Name>Default</Name>
+      	<View>
+			<Name>Default</Name>
             <ViewSelectedBy>
-                <TypeName>NimbleAdvancedPowerShellToolkit.Question</TypeName>
+                <TypeName>Nimble.InitiatorGroup.Typename</TypeName>
             </ViewSelectedBy>
             <TableControl>
                 <TableHeaders>
                     <TableColumnHeader>
-                        <Width>48</Width>
+                        <Label>name</Label>
+						<!--<AutoSize/>-->
                     </TableColumnHeader>
                     <TableColumnHeader>
-                        <Width>12</Width>
+                        <Label>id</Label>
+						<Width>42</Width>
                     </TableColumnHeader>
                     <TableColumnHeader>
-                        <Width>5</Width>
+                        <Label>access_protocol</Label>
+						<width>15</width>
                     </TableColumnHeader>
                     <TableColumnHeader>
-                        <Label>Owner</Label>
-                        <Width>15</Width>
+                        <Label>computerName</Label>
                     </TableColumnHeader>
                     <TableColumnHeader>
-                        <Label>Tags</Label>
-                        <Width>20</Width>
+                        <Label>description</Label>
                     </TableColumnHeader>
                 </TableHeaders>
                 <TableRowEntries>
@@ -31,61 +32,19 @@
                         <Wrap />
                         <TableColumnItems>
                             <TableColumnItem>
-                                <PropertyName>Title</PropertyName>
+                                <PropertyName>name</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
-                                <PropertyName>Answer_Count</PropertyName>
+                                <PropertyName>id</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
-                                <PropertyName>Score</PropertyName>
+                                <PropertyName>access_protocol</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
-                                <ScriptBlock>$_.Owner.display_name</ScriptBlock>
+                                <PropertyName>computerName</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
-                                <ScriptBlock>($_.Tags | Sort-Object) -Join ', '</ScriptBlock>
-                            </TableColumnItem>
-                        </TableColumnItems>
-                    </TableRowEntry>
-                </TableRowEntries>
-            </TableControl>
-        </View>
-        <View>
-            <Name>Default</Name>
-            <ViewSelectedBy>
-                <TypeName>NimbleAdvancedPowerShellToolkit.Answer</TypeName>
-            </ViewSelectedBy>
-            <TableControl>
-                <TableHeaders>
-                    <TableColumnHeader>
-                        <Width>50</Width>
-                    </TableColumnHeader>
-                    <TableColumnHeader>
-                        <Label>Owner</Label>
-                        <Width>20</Width>
-                    </TableColumnHeader>
-                    <TableColumnHeader>
-                        <Width>5</Width>
-                    </TableColumnHeader>
-                    <TableColumnHeader>
-                        <Width>11</Width>
-                    </TableColumnHeader>
-                </TableHeaders>
-                <TableRowEntries>
-                    <TableRowEntry>
-                        <Wrap />
-                        <TableColumnItems>
-                            <TableColumnItem>
-                                <PropertyName>Share_Link</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <ScriptBlock>$_.Owner.display_name</ScriptBlock>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Score</PropertyName>
-                            </TableColumnItem>
-                            <TableColumnItem>
-                                <PropertyName>Is_Accepted</PropertyName>
+                                <PropertyName>desciption</PropertyName>
                             </TableColumnItem>
                         </TableColumnItems>
                     </TableRowEntry>
