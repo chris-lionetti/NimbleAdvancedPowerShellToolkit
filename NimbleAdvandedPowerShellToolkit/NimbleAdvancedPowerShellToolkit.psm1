@@ -429,7 +429,13 @@ function Get-NimInitiatorGroup
     (	[parameter ( 	ValueFromPipeline=$True,
 						ValueFromPipelineByPropertyName,
 					 	HelpMessage="Enter a one or more Names seperated by commas.")]
-		[Alias("ComputerName", "Cn", "NodeName", "_SERVER")] 
+		[Alias("Cn", "NodeName", "_SERVER")] 
+		[string[]] 
+		$ComputerName="",
+		
+		[parameter ( 	ValueFromPipeline=$True,
+						ValueFromPipelineByPropertyName,
+					 	HelpMessage="Enter a one or more Names seperated by commas.")]
 		[string[]] 
 		$name="",
 
@@ -440,17 +446,127 @@ function Get-NimInitiatorGroup
 	
 $returnarray=[system.array]@()
 if ( Get-nsArray -ErrorAction SilentlyContinue ) 
-	 { # validating if an Array is connected$ArrayName
-	   $ArrayName=((Get-nsarray).name)
-	   Write-host "Validating Connectivitity to Array named = $arrayname"
-	   $c=(get-nsinitiatorgroup).count # set the variable used to see progress
-	 } else
-	 { # No need to continue if I cant connect to an array.
-	   write-error "Could not connect to a valid array."
-	   write-error "Use Connect-NSArray to connect."
-	   break
-	 }
-	 
+   { # validating if an Array is connected$ArrayName
+	 $ArrayName=((Get-nsarray).name)
+	 Write-host "Validating Connectivitity to Array named = $arrayname"
+	 $c=(get-nsinitiatorgroup).count # set the variable used to see progress
+	 if ( get-NSFibreChannelPort )
+		{ write-Output "Detected that this array is FC based"
+		  if ( $access_protocol -eq "iscsi")
+			 { write-warning "This Access Protocol cannot be iSCSI"
+			 }
+		  write-Output "Setting Access to this Array as Fibre Channel"
+		  $access_protocol="fc"
+		} else
+		{ write-output "Detected that this array is iSCSI based"
+		  if ( $access_protocol -eq "fc")
+			 { write-warning "This Access Protocol cannot be FC."
+			 }
+		  write-output "Setting Access to this Array as iscsi"
+		  $access_protocol="iscsi"
+		}
+   } else
+   { # No need to continue if I cant connect to an array.
+	 write-error "Could not connect to a valid array."
+	 write-error "Use Connect-NSArray to connect."
+	 break
+   }
+   
+if ( -not $ComputerName ) 
+	{ write-verbose "No Computername was Given"
+	} else 
+	{ write-debug "Number of items in Computername = $($computername.count)"
+	  foreach ( $Computer in $ComputerName )
+	    { if ( invoke-command -ComputerName $computer -scriptblock { get-host } -ErrorAction SilentlyContinue )
+			{ write-host "PowerShell Remoting run successfully against remote host $Computer"
+			  if ($access_protocol -like "iscsi")
+				{ # Must be iSCSI, Checking if iSCSI service is runningif
+				  if ( $IQN=$(invoke-command -computername $computer -scriptblock { $( get-initiatorport | where {$_.connectiontype -like "iscsi"} ).nodeaddress }) ) 
+					{ Write-output "The server has an iSCSI Initiator configured"
+					  $cd=$c # countdown = count
+				      write-verbose "Detected $Counter Initiator Groups on the Array, Checking them now"
+				      $foundname=$false
+				      foreach ( $igroup in get-NSInitiatorgroup )
+						{ start-sleep -m 25
+						  Write-Progress 	-activity "Searching Existing Initiator Groups" -status "Progress:" `
+											-percentcomplete ( ($c-(--$cd)) / $c * 100 ) -currentoperation $($igroup.name)
+						  if  ( $IQN -eq $(igroup.iscsi_initiators).iqn )
+							{ write-output "Found correct Initiator Group, $iqn matches $(($igroup.iscsi_initiators).iqn)"
+							  $r=$igroup
+							  $r.PSObject.TypeNames.Insert(0,'Nimble.InitiatorGroup.Typename')
+							  $r | add-member -type NoteProperty -name ComputerName -value $computer
+							  if ( $(igroup).name -eq $computer)
+								{ Write-host "IGroup name and Computername match."
+								} else
+								{ Write-warning "The Initiator Group $($igroup.name) does not match $computer"
+								}
+							  $returnarray+=$r
+							  $foundname=$true
+							} else
+							{ write-debug "Initiator compair false - $computer not equal to $($igroup.name)"
+							}
+						}
+					}
+				  Write-Progress -activity "Searching Existing Initiator Groups" -status "Progress:" -percentcomplete ( 100 )
+				  if ( -not $foundname )
+					{ Write-warning "Initiator group that matches name the IQN used by $computer was not found"
+					} else
+					{ $foundname=$false
+					  Write-warning "The array has NO iscsi Initiator definedconfigured"
+					}
+				} else
+				{ # Must be FC, Checking if FC ports exist on this server 
+				  if ( $wwpn=$(invoke-command -computername $computer -scriptblock { $( get-initiatorport | where {$_.connectiontype -like "Fibre Channel"} ).portaddress }) )
+					{ Write-output "The server $computer has an FC Initiator configured"
+				      $cd=$c # countdown = count
+				      write-verbose "Detected $Counter Initiator Groups on the Array, Checking them now"
+				      $foundname=$false
+				      foreach ( $igroup in get-NSInitiatorgroup )
+						{ start-sleep -m 25
+						  Write-Progress 	-activity "Searching Existing Initiator Groups" -status "Progress:" `
+											-percentcomplete ( ($c-(--$cd)) / $c * 100 ) -currentoperation $($igroup.name)
+						  write-verbose "Checking both WWPNs againts Initiator Group $($igroup.name)"
+						  $wwpncount=$wwpn.count
+						  $hbacount=0
+						  foreach ($wwpni in $wwpn)
+							{ $wwn=$wwpni 
+							  foreach ($colon in 14,12,10,8,6,4,2 ) 
+								{ $wwn=$wwn.insert($colon,":") 
+								} 
+						  	  if ( ($wwn -eq $(($igroup.fc_initiators).wwpn)) -or ($hbacount -gt 0) ) # if the WWPN matches OR if we already found the partner
+								{ $foundname=$true
+								  $hbacount+=1
+								  Write-output "WWPN number $hbacount found =  $wwpni in IGroup named $($igroup.name)"
+								  if ( $hbacount -eq 1 )
+									{ $r=$igroup
+									  $r.PSObject.TypeNames.Insert(0,'Nimble.InitiatorGroup.Typename')
+									  $r | add-member -type NoteProperty -name ComputerName -value $computer
+									}
+								} else
+								{ if ( $hbacount -eq $wwpncount)
+									{ write-verbose "The number of Initiators matches the number of WWPN in the Initiator Group" 
+									}
+								}
+							}
+						  if  ( $hbacount -ne $wwpncount -and $foundname )
+									{ write-warning "The Initiator Group does NOT contain all of the WWPNs that the host has."
+									}
+							}
+						}
+				   Write-Progress -activity "Searching Existing Initiator Groups" -status "Progress:" -percentcomplete ( 100 )
+				   if ( -not $foundname )
+					{ Write-warning "Initiator group that matches name the WWPN used by $computer was not found"
+					} else
+					{ $foundname=$false
+					  Write-warning "The array has NO FC Initiator definedconfigured"
+					}
+				}
+			} else
+			{ write-warning "Remote PowerShell connectivity to host named $Computer was denied. Detection of Group matching a detected HBA type not possible."
+			}
+		}
+	}
+
 if ( -not $name)
 	{ Write-verbose "No Name variable was given." 
 	} else
@@ -479,6 +595,7 @@ if ( -not $name)
 			}
 		}
     }
+
 if ( -not $id)
 	{ # then 
 	  Write-Verbose "No Id's were give to search for."
@@ -513,7 +630,7 @@ if ( -not $id)
 		}
     }
 
-if ( -not $name -and -not $id )
+if ( -not $name -and -not $id -and -not $ComputerName)
 		{ # They must want Everything 
 		  write-host "Gathering All Initiator Groups"
 		  $cd=$c # countdown=counter
@@ -523,7 +640,7 @@ if ( -not $name -and -not $id )
 			  start-sleep -m 25
 			  Write-Progress -activity "Gathering Existing Initiator Groups" `
 							 -status "Progress:" `
-							 -percentcomplete ( ($c-(--$cd)) / $counter * 100 ) `
+							 -percentcomplete ( ($c-(--$cd)) / $c * 100 ) `
 							 -currentoperation $($igroup.name)
 	          $r.PSObject.TypeNames.Insert(0,'Nimble.InitiatorGroup.Typename')
 			  $returnarray+=$r			  
