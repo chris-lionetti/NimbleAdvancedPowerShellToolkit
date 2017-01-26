@@ -17,11 +17,12 @@
 						<Width>42</Width>
                     </TableColumnHeader>
                     <TableColumnHeader>
-                        <Label>access_protocol</Label>
-						<width>15</width>
+                        <Label>access_ protocol</Label>
+						<Width>8</Width>
                     </TableColumnHeader>
                     <TableColumnHeader>
                         <Label>computerName</Label>
+						<Width>8</Width>
                     </TableColumnHeader>
                     <TableColumnHeader>
                         <Label>description</Label>
