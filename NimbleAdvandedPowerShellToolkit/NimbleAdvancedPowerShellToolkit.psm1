@@ -230,6 +230,97 @@ function Z_fix-NIMHostWWPN
 	return $CorrectedWWPN
 }
 
+<#
+.SYNOPSIS 
+Creates a new Initiator Group on the Nimble Array.
+
+.DESCRIPTION
+An Initiator Group is used to define access for a specific server to access a set of Nimble Storage Volumes. 
+Commonly the name of the Initiator Group will match the hostname of the server and will act as a container for
+the Initiator objects specific to this server which can be set using the followup commnd New-NimInitiator. This
+command will ONLY create a new Initiator group if the requisite tests pass such as verification that the host 
+contains initators which can communicate with the Nimble Array via the appropriate protocol. To override these 
+checks, and force the creation of the Initiator Group without these checks, use the commong -FORCE parameter.
+    
+.PARAMETER Name
+Specifies the common name used to refer to this Initiator Group. This is commonly the same as the hostname 
+of the server. If not specified, the command will default to the hostnme.
+
+.PARAMETER ComputerName
+Valid Alias for this argument is also "NodeName" or "CN". Specifies the hostname of the Server that the Initiator 
+Group is being created for, If left blank, will assume that the command is intending to create and Initiator 
+Group for the localhost.
+
+.PARAMETER Description
+Specifies a description for this Initiator Group. If not specified, it will first attempt to use the Windows 
+description field, if that is NULL it will create a Description of the 
+format "Hostname - OS Version - Clustername (if a cluster member)".
+
+.PARAMETER Access_Protocol
+Valid Alias for this argument is also "ConnectionType". Used to identify which type of Target device this Initiator 
+Group is being made for. If the array only supports a single protocol type, this value will be overridden with the 
+correct protocol. Valid values for this argument are "FC" and "iSCSI", but "Fibre Channel" is allowed as it will
+be converted to the proper "FC" and ins only included to allow pipelined input to funtion properly with Microsoft
+existing Powershell commands.
+
+.INPUTS
+You can pipeline the input from numerous commands that output the computername such as Get-ClusterNode. See examples.
+
+.OUTPUTS
+Command will return the new Initator Group Object, or if the Initiator Group already exists, will return the existing 
+Initiator Group Object. This Initiator Group object can be pipelined to the next stage of a mapping operation which is
+to define the individual initiators.
+
+.EXAMPLE
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> New-NimInitiatorGroup
+
+.EXAMPLE
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> New-NimInitiatorGroup -name Server1
+
+.EXAMPLE
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> New-NimInitiatorGroup -name Server1,Server2,Server3
+
+.EXAMPLE
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> New-NimInitiatorGroup -name Server1 -description "A New IGroup for Server123" -access_protocol fc
+
+.EXAMPLE
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> New-NimInitiatorGroup -name Server1 -description "A New IGroup for Server123" -access_protocol iscsi -target_subnets iscsi-a,iscsi-b
+
+.EXAMPLE
+This example will create Initiator Groups for ALL of the members of a Windows Cluster using PowerShell Remoting.
+C:\PS> Connect-NSGroup 10.18.128.190
+C:\PS> Get-ClusterNode | ForEach-Object { Get-ClusterNode $_.NodeName | New-NimInitiatorGroup }
+
+.EXAMPLE
+C:\PS> New-NimInitiatorGroup -name testnode4 -target_subnets iSCSI-A,management,iscsi-b | format-list *
+Detected that this array is iSCSI based
+Setting Access to this Array as iscsi
+Finding if Existing Initiator Group Exists
+iSCSI-A matches Target Subnet iSCSI-A with Target Subnet ID 1a58cccb25ab411db2000000000000000000000004
+management matches Target Subnet Management with Target Subnet ID 1a58cccb25ab411db2000000000000000000000003
+WARNING: The management Target Subnet does not allow iSCSI communication
+iscsi-b matches Target Subnet iSCSI-B with Target Subnet ID 1a58cccb25ab411db2000000000000000000000005
+Executing the following command;
+New-NSInitiatorGroup -computername testnode4 -access_protocol iscsi
+
+access_protocol  : iscsi
+creation_time    : 10/11/2016 7:22:50 PM
+description      :
+fc_initiators    :
+full_name        : testnode4
+id               : 0258cccb25ab411db200000000000000000000004d
+iscsi_initiators :
+last_modified    : 10/11/2016 7:22:50 PM
+name             : testnode4
+search_name      : testnode4
+target_subnets   : 
+computername	 : testnode4
+#>
 function New-NimInitiatorGroup
 {
 	    [cmdletBinding(SupportsShouldProcess=$true)]
