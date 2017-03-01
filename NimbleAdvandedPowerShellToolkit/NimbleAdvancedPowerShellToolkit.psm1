@@ -217,6 +217,47 @@ function Z_discover-NIMInitiatorGroupByValue
 	return $detected
 }
 
+function Z_discover-NIMInitiatorByValue
+{ # This will accept a $name and find the object for the initiator group and return it
+	param
+	(	[string]
+		$testValue,
+		
+		[string]
+		$ValueType
+	)
+	$detected=""
+	$c = $cd = ( (Get-NSInitiatorGroup).count )
+	foreach ( $zGroup in get-nsinitiatorgroup ) 
+		{ 	# compair my target subnet to each subnet on the array
+			start-sleep -m 25
+			Write-Progress -activity "Searching Existing Initiator Groups" `
+						   -status "Progress:" `
+					       -percentcomplete ( ( ($c-(--$cd)) / $c) * 100 ) `
+					       -currentoperation $($zgroup.name)
+			if ( ( $testvalue -like $(($zgroup.iscsi_initiators).iqn) ) 	-and ( $valuetype -like "iscsi")  )
+				{	write-host "Found Match IQN Checking $testvalue against $(($zgroup.iscsi_initiators).iqn)"
+					$detected=$(($zgroup.iscsi_initiators).id)
+				}
+			if ( ( $testvalue -like $(($zgroup.iscsi_initiators).alias) ) 	-and ( $valuetype -like "alias")  )
+				{	write-host "Found Match IQN Checking $testvalue against $(($zgroup.iscsi_initiators).alias)"
+					$detected=$(($zgroup.iscsi_initiators).id)
+				}
+			if ( $Valuetype -like "fc")
+				{	foreach ($zwwpn in $($zgroup.fc_initiators).wwpn) 
+						{	if ( ( $testvalue -like $zwwpn )  )
+							{	write-host "Found Match Checking $testvalue against $zwwpn"
+								$detected=$(($zgroup.iscsi_initiators).id)
+							}
+						}
+				}
+
+		}
+	Write-Progress 	-activity "Searching Existing Initiator Groups" `
+					-status "Progress:" -percentcomplete ( 100 ) 
+	return $detected
+}
+
 function Z_fix-NIMHostWWPN
 { # fixes the format from windows 200000001523234 to the corrected 20:00:00:00:12:34:45:ab
 	param
@@ -624,6 +665,13 @@ function Get-NimInitiatorGroup
 			$id=""
 		)
 	
+write-verbose "START OF Get-NIMInitiatorGroup Command"
+write-verbose "-------------------------------"
+write-verbose "- Name setting = $name"
+write-verbose "- ComputerName setting = $computername"
+write-verbose "- Initiator Group ID = $ID"
+write-verbose "-------------------------------"
+
 	$returnarray=[system.array]@()
 
 if ( Z_detect-NIMArray )
@@ -747,7 +795,14 @@ if ( -not $name -and -not $id -and -not $ComputerName)
 			}
 			Write-Progress -activity "Gathering Finished for Initiator Groups" -status "Progress:" -percentcomplete ( 100 )
 	}
-		
+	
+write-verbose "-------------------------------"
+write-verbose "- Name setting = $name"
+write-verbose "- ComputerName setting = $computername"
+write-verbose "- Initiator Group ID = $ID"
+write-verbose "-------------------------------"
+write-verbose "END OF Get-NIMInitiatorGroup Command"
+
 $returnarray.PSObject.TypeNames.Insert(0,'Nimble.InitiatorGroup.Typename')
 return $returnarray
 }
@@ -866,6 +921,15 @@ function Set-NimInitiatorGroup
 		[Parameter (	HelpMessage="Enter the collection of Valid Target Subnets if using iSCSI." ) ]
 		[string[]] $target_subnets=""
 	)
+	
+	write-verbose "START OF Set-NIMInitiatorGroup Command"
+	write-verbose "-------------------------------"
+	write-verbose "- FORCE = $force"
+	write-verbose "- Name = $name"
+	write-verbose "- Computer Name = $ComputerName"
+	write-verbose "- Description = $Description"
+	write-verbose "- Target_Subnet = $target_subnet"
+	write-verbose "-------------------------------"
 
 if ( -not $ComputerName -and -not $name ) 
 	{ # initial condituon that we must populate at least the localhost
@@ -919,12 +983,7 @@ $target_subnets=""""+$target_subnets+""""
 write-verbose "The Cleansed list of Subnets is $target_subnets"   
 
 $returnarray=[system.array]@()
-write-verbose "-Pass Values of the variables equal the following;"
-write-verbose "-Pass  = Computername=$Computername"
-write-verbose "-Pass  = name=$name"
-write-verbose "-Pass  = description=$description"
-write-verbose "-Pass  = target_subnets=$target_subnets"
-write-verbose "-Pass  = -Force =$force"
+
 if ( (-not $computername) -and (-not $name) )
 	{	$computername = (hostname) 	
 	}
@@ -1020,6 +1079,14 @@ if ( -not $Name )
 			}
 	}
 
+	write-verbose "-------------------------------"
+	write-verbose "- FORCE = $force"
+	write-verbose "- Name = $name"
+	write-verbose "- Computer Name = $ComputerName"
+	write-verbose "- Description = $Description"
+	write-verbose "- Target_Subnet = $target_subnet"
+	write-verbose "-------------------------------"
+	write-verbose "END OF set-NIMInitiatorGroup Command"
 $returnarray.PSObject.TypeNames.Insert(0,'Nimble.InitiatorGroup.Typename')
 return $returnarray
 } # end the function
@@ -1114,13 +1181,12 @@ if ( Z_detect-NIMArray )
 	}    
 
 $returnarray=[system.array]@()
-write-verbose "-Pass Values of the variables equal the following;"
-write-verbose "-Pass  = Computername=$Computername"
-write-verbose "-Pass  = name=$name"
-write-verbose "-Pass  = description=$description"
-write-verbose "-Pass  = target_subnets=$target_subnets"
-write-verbose "-Pass  = -Force =$force"
-
+write-verbose "START OF Remove-NIMInitiatorGroup Command"
+write-verbose "-------------------------------"
+write-verbose "- Computer name = $Computername"
+write-verbose "- name = $name"
+write-verbose "- Force = $force"
+write-verbose "-------------------------------"
 if ( -not $ComputerName ) 
 	{ 	write-verbose "No Computername was Given"
 	} else 
@@ -1198,6 +1264,13 @@ if ( -not $id )
 					}
 			}
 	}
+write-verbose "START OF Remove-NIMInitiatorGroup Command"
+write-verbose "-------------------------------"
+write-verbose "- Computer name = $Computername"
+write-verbose "- name = $name"
+write-verbose "- Force = $force"
+write-verbose "- ID = $id"
+write-verbose "-------------------------------"
 $returnarray.PSObject.TypeNames.Insert(0,'Nimble.InitiatorGroup.Typename')
 return $returnarray
 } # end the function
@@ -1444,3 +1517,494 @@ function New-NimInitiator
 	return $returnarray
 } # end the function
 export-modulemember -function New-NimInitiator
+
+<#
+.SYNOPSIS 
+Allow the Removal of existing an Initiator(s) from an initiator Group(s) on the Nimble Array.
+    
+.PARAMETER Name
+Specifies the common name(s) used to refer to this Initiator Group. This is commonly the same as the hostname 
+of the server. This can be a single name or a list of names seperated by commas. If multple names are 
+selected, the description can only be an autogenerated description, and the computername must match the 
+initiator group name. If this and computername and ID are left blank, the command will assume the localhost.
+
+.PARAMETER ComputerName
+Valid Alias for this argument is also "NodeName" or "CN" or "_SERVER". This can be a single computer name 
+or a collection of computer names seperated by commas. Specifies the hostname of the Server that the Initiator 
+Group is being serched for.  This is verified by using PowerShell Remoting to retrieve the IQN or WWPNs 
+of the server to ensure the correct initiator group names. 
+
+.PARAMETER id
+Specifies the array ID used to reference the Initiator Group. This can be a single ID, or a list of IDs seperated
+by commas. This value can be used to identify the correct initiator group, but is not changable. If not specified, 
+it will be detected via the name or computername variables.
+
+.INPUTS
+You can pipeline the input from numerous commands that output the computername such as Get-ClusterNode. See examples.
+
+.OUTPUTS
+Command will return the Initator Group Object(s). This Initiator Group object can be pipelined to the next stage 
+of a mapping operation which is to define the individual initiators using the new-NimInitiator command.
+
+.EXAMPLE
+C:\PS> remove-NimInitiatorGroup
+Validating Connectivitity to Array named = mcs460gx2
+WARNING: No Computername or Initiator Group name or ID(s) was Passed in as a parameter, This command will do nothing.                   
+
+.EXAMPLE
+In this example, the computername and the initiator group name do not match, but since I am using force, 
+it will reset the initiatorgroup name to match the computername. 
+C:\PS> remove-NimInitiatorGroup -computername sql-dev
+Validating Connectivitity to Array named = mcs460gx2
+
+name             id                                         access_protocol computerName description       
+----             --                                         --------------- ------------ -----------       
+sql-dev            0247a5f2220a9575e0000000000000000000000027 iscsi                        OS:Windows2012r2 - Hostname:sql-p - Clustername:SQLClus
+
+.EXAMPLE
+This example will attempt to update both initiator groups with a name of Server1 and additionally the specified id.
+In each case, if the descriptions are blank on the array, the command will update the descriptions to match detected values
+C:\PS> remove-NimInitiatorGroup -id 1a58cccb25ab411db2000000000000000000000004
+
+.EXAMPLE
+This example will remove Initiator Groups for ALL of the members of a Windows Cluster using PowerShell Remoting. It will force all
+of the initiator groups to have the same description, but will also match sure that the initiator group names match the hostnames
+C:\PS> Get-ClusterNode | ForEach-Object { Get-ClusterNode $_.NodeName | remove-NimInitiatorGroup }
+
+#>	
+function Get-NimInitiator
+{
+	    [cmdletBinding(SupportsShouldProcess=$true)]
+  param
+    (	[parameter ( 	mandatory=$false,
+						ValueFromPipelineByPropertyName=$True	)]
+		[Alias("id")]
+		[string] 
+		$initiator_group_id="",
+
+		[parameter ( 	mandatory=$false,
+						ValueFromPipelineByPropertyName=$True,
+						HelpMessage="Enter a Name for your Initiator Group, commonly matches the Hostname")]
+		[Alias("name")]
+		[string] 
+		$initator_group_name="",
+
+		[parameter ( 	mandatory=$false,
+						HelpMessage="Enter a Name for your Initiator.")]
+	
+		[parameter ( 	mandatory=$false,
+						ValueFromPipelineByPropertyName=$True )	 ]
+		[Alias("Cn", "NodeName", "_SERVER")] # To allow pipelining, since different MS commands calls things by these names
+		[string]
+		$ComputerName="",
+
+		[Parameter ( 	mandatory=$false,
+						HelpMessage="Enter a Description of this individual initiator." ) ]
+		[string] 
+		$alias="",
+
+		[Parameter (	mandatory=$false,
+						HelpMessage="Enter the IQN for the iSCSI Adapter." ) ]
+		[string]
+		$iqn="",
+		
+		[Parameter (	mandatory=$false,
+						HelpMessage="Enter the single or collection of Valid WWPNs in format including Colons" ) ]
+		[string[]]
+		$wwpn="",
+		
+		[Parameter (	mandatory=$false,
+						HelpMessage="Enter the single or collection of Valid WWPNs in format including Colons" ) ]
+		[string[]]
+		$IP_Address="""*"""
+	)
+	write-verbose "Start OF Get-NIMInitiator Command"
+	write-verbose "-------------------------------"
+	write-verbose "- Computername = $computername"
+	write-verbose "- Alias = $alias"
+	write-verbose "- Label = $label"
+	write-verbose "- Initiator_Group_Name = $initator_group_name"
+	write-verbose "- Initiator_Group_ID   = $initiator_group_id"
+	write-verbose "- Access_Protocol = $access_protocol"
+	write-verbose "- IP_Address = $IP_Address"
+	write-verbose "- IQN = $iqn"
+	write-verbose "- WWPN = $wwpn"
+	write-verbose "-------------------------------"
+
+	$returnarray=[system.array]@() 
+	$wwpnset=[system.array]@()
+	
+	if ( Z_detect-NIMArray ) 													# Detecting the array
+		{ 	$access_protocol =  $(Z_detect-NIMArrayProtocol $access_protocol )	# Discover if I can get to the array, and set the protocol type
+			write-verbose "-Pass  = access_protocol=$access_protocol"
+		}																		# this is where I set the number of iGroups on the array
+
+		# this section fills in the Initiator Group ID, or the Name or the Computername, fills in any of the missing items.
+		
+	if ( -not $initiator_group_id )
+		{	write-verbose "No Initiator ID Was Given."
+		} else 
+		{	write-verbose "Retrieving Initiator Group that matches ID $Initiator_Group_ID"
+			if ( $z=$( get-niminitiatorgroup -id $Initiator_Group_ID ) )
+				{	$initiator_group_id = $($z.id)
+					$initiator_group_name= $($z.name)
+					write-Verbose "Successfully Found Initiator Group $($z.name)"
+					if ( $access_protocol -eq "iscsi" )
+						{	write-verbose "Looking for an iSCSI IQN"
+							foreach ( $diqn in $($z.iscsi_initiators) )
+								{	$r=$dign
+									$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+									$returnarray+=$r
+								}
+						}
+					if ( $access_protocol -eq "fc")
+						{	write-verbose "Looking for an WWPNs"
+							foreach ( $diqn in $($z.iscsi_initiators) )
+								{	$r=$dign
+									$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+									$returnarray+=$r
+								}
+						}
+				} else
+				{	Write-warning "Using Initiator Group ID $Initiator_Group_ID was not found"
+				}
+		}
+
+	if ( -not $initiator_group_name )
+		{	write-verbose "No Initiator name Was Given."
+		} else 
+		{	write-verbose "Retrieving Initiators in Initiator Group that matches Name $name"
+			if ( $z=$( get-niminitiatorgroup -name $initiator_group_name ) )
+				{	$initiator_group_id = $($z.id)
+					$initiator_group_name= $($z.name)
+					write-Verbose "Successfully Found Initiator Group $($z.name)"
+					if ( $access_protocol -eq "iscsi" )
+						{	write-verbose "Looking for an iSCSI IQN"
+							foreach ( $diqn in $($z.iscsi_initiators) )
+								{	$r=$dign
+									$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+									$returnarray+=$r
+								}
+						}
+					if ( $access_protocol -eq "fc")
+						{	write-verbose "Looking for an WWPNs"
+							foreach ( $diqn in $($z.fc_initiators) )
+								{	$r=$dign
+									$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+									$returnarray+=$r
+								}
+						}
+				} else
+				{	Write-warning "Using Initiator Group name $Initiator_Group_name was not found"
+				}
+		}
+	
+	if ( -not $computername)
+		{	write-verbose "No ComputerName name Was Given."
+		} else
+		{	foreach ( $Computer in $Computername )
+				{	if ( $z = get-niminitiatorgroup -$computername $computer )
+					{	$initiator_group_id = $($z.id)
+						$initiator_group_name= $($z.name)
+						write-Verbose "Successfully Found Initiator Group $($z.name)"
+						if ( $access_protocol -eq "iscsi" )
+							{	write-verbose "Looking for an iSCSI IQN"
+								foreach ( $diqn in $($z.iscsi_initiators) )
+									{	$r=$dign
+										$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+										$returnarray+=$r
+									}
+							}
+						if ( $access_protocol -eq "fc")
+							{	write-verbose "Looking for an WWPNs"
+								foreach ( $diqn in $($z.fc_initiators) )
+									{	$r=$dign
+										$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+										$returnarray+=$r
+									}
+							}
+					} else
+					{ write-warning "An Initiator Group for hostname $computer cannot be found"
+					}
+				}
+		} 
+	
+	if ( -not $iqn )
+		{	write-verbose "No Initiator IQN name Was Given."
+		} else
+		{	if ( $access_protocol -eq "iscsi" )
+				{	write-verbose "Looking for an WWPNs"
+					if ( $z = Z_discover-NIMInitiatorByValue $iqn iscsi ) 
+						{ 	$r = get-nsinitiator -id $z 
+							$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+							$returnarray+=$r
+						} else
+						{	write-warning "The Initiator with IQN $IQN cannot be found"
+						}
+				} else
+				{	write-warning "The array detected is not an ISCSI array, yet an IQN was given"
+				}
+		}
+	
+	if ( -not $wwpn )
+		{	write-verbose "No Initiator WWPN name Was Given."
+		} else
+		{	if ( $access_protocol -eq "fc" )
+				{	write-verbose "Looking for an WWPNs"
+					foreach ( $dwwpn in $wwpn )
+						{	if ( $z = Z_discover-NIMInitiatorByValue $dwwpn fc ) 
+								{ 	$r = get-nsinitiator -id $z 
+									$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+									$returnarray+=$r
+								} else
+								{	write-verbose "The Initiator with WWPN $dwwpn cannot be found"
+								}
+						}
+				} else
+				{	write-warning "The array detected is not an FC array, yet an wwpn was given"
+				}
+		}
+		
+	if ( -not $alias )
+		{	write-verbose "No Initiator alias name Was Given."
+		} else
+		{	if ( $z = Z_discover-NIMInitiatorByValue $alias alias ) 
+				{ 	$r = get-nsinitiator -id $z 
+					$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+					$returnarray+=$r
+				} else
+				{	write-warning "The Initiator with alias $alias cannot be found"
+				}
+		}
+		
+	if ( -not ( $alias -or $computername -or $wwpn -or $initiator_group_id -or -$initiator_name -or $iqn) )
+		{ 	# Nothing was selected, so return the entire list
+			foreach ( $z in get-nsinitator )
+				{	$r = $z 
+					$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+					$returnarray+=$r
+				}
+		}
+	write-verbose ""
+	write-verbose "-------------------------------"
+	write-verbose "- Computername = $computername"
+	write-verbose "- Alias = $alias"
+	write-verbose "- Label = $label"
+	write-verbose "- Initiator_Group_Name = $initator_group_name"
+	write-verbose "- Initiator_Group_ID   = $initiator_group_id"
+	write-verbose "- Access_Protocol = $access_protocol"
+	write-verbose "- IP_Address = $IP_Address"
+	write-verbose "- IQN = $iqn"
+	write-verbose "- WWPN = $wwpn"
+	write-verbose "-------------------------------"
+	write-verbose "END OF New-NIMInitiator Command"
+	
+	$returnarray.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+	return $returnarray
+} # end the function
+export-modulemember -function Get-NimInitiator
+
+function Remove-NimInitiator
+{
+	    [cmdletBinding(SupportsShouldProcess=$true)]
+  param
+    (	[parameter]
+		[switch]
+		$force,
+
+		[parameter ( 	mandatory=$false,
+						ValueFromPipelineByPropertyName=$True	)]
+		[Alias("id")]
+		[string]
+		$initiator_id="",
+
+		[parameter ( 	mandatory=$false,
+						ValueFromPipelineByPropertyName=$True,
+						HelpMessage="Enter a Name for your Initiator Group, commonly matches the Hostname")]
+		[Alias("name")]
+		[string] 
+		$initator_group_name="",
+
+		[parameter ( 	mandatory=$false,
+						ValueFromPipelineByPropertyName=$True )	 ]
+		[Alias("Cn", "NodeName", "_SERVER")] # To allow pipelining, since different MS commands calls things by these names
+		[string]
+		$ComputerName="",
+
+		[Parameter (	mandatory=$false,
+						HelpMessage="Enter the IQN for the iSCSI Adapter." ) ]
+		[string]
+		$iqn="",
+		
+		[Parameter (	mandatory=$false,
+						HelpMessage="Enter the single or collection of Valid WWPNs in format including Colons" ) ]
+		[string[]]
+		$wwpn=""
+		)
+	
+	write-verbose "Start OF Remove-NIMInitiator Command"
+	write-verbose "-------------------------------"
+	write-verbose "- Force = $force"
+	write-verbose "- Computername = $computername"
+	write-verbose "- Initiator_Group_Name = $initator_group_name"
+	write-verbose "- Initiator_Group_ID   = $initiator_group_id"
+	write-verbose "- IQN = $iqn"
+	write-verbose "- WWPN = $wwpn"
+	write-verbose "-------------------------------"
+
+	$returnarray=[system.array]@() 
+	$wwpnset=[system.array]@()
+	
+	if ( Z_detect-NIMArray ) 													# Detecting the array
+		{ 	$access_protocol =  $(Z_detect-NIMArrayProtocol $access_protocol )	# Discover if I can get to the array, and set the protocol type
+			write-verbose "-Pass  = access_protocol=$access_protocol"
+		}																		# this is where I set the number of iGroups on the array
+
+		# this section fills in the Initiator Group ID, or the Name or the Computername, fills in any of the missing items.
+	
+	if ( $computername -and ( $Initiator_group_ID -or $initiator_Group_Name ) )
+		{	# first validate they are all accurate.
+			if ( ( $z = $( get-niminitiatorgroup -id $initiator_group_id )) -or ( $y = $( get-niminitiatorgroup -id $initiator_group_id ) ) )
+				{	if ( Z_test-nimPSRemote $computername )
+						{
+						}
+				}
+		}
+	
+	if ( -not $initiator_group_id )
+		{	if ( $computername )
+			{	if ( $initiator_group_name )	# if computername sent it, set the proper ID
+					{	write-host "Both Computername and group name were specified, so obtaining group ID"
+						if ( $z=$( get-niminitiatorgroup -name $name ) )
+							{	$initiator_group_id = $($z.id)
+								write-host "Successfully Found Initiator Group $($z.name)"
+							} else
+							{	Write-warning "Using group name $name the appropritate Initiator Group was not found"
+							}
+					} else # -not initiator_group_name 							# -not initiator_group_name
+					{	write-warning  "Computername was specified, but name was not, doing a lookup to determine Initiator Group name"
+						if ( $z=$( get-niminitiatorgroup -computername $computername ) )
+							{	$initiator_group_id = $($z.id)
+								$initiator_group_name= $($z.name)
+								write-host "Successfully Found Initiator Group $($z.name)"
+							} else
+							{	Write-warning "Using Computername $computername the appropritate Initiator Group was not found"
+							}
+					}
+			} else # -not computername
+			{	if ( $initiator_group_name )							# if computername sent it, set the proper ID
+					{	write-warning  "Computername was not specified, but name was, validating the name and setting the ID"
+						if ( $z=$( get-niminitiatorgroup -name $initiator_group_name ) )
+							{	$initiator_group_id = $($z.id)
+								$initiator_group_name= $($z.name)
+								write-host "Successfully Found Initiator Group $($z.name)"
+								if ( Z_test-nimPSRemote $initiator_group_name )
+									{ 	$Computername = $Initiator_group_name
+										write-warning "Initiator Group name matches a valid hostname, setting computer name to $Computername"
+									}
+							} else
+							{	Write-warning "Using Computername $computername the appropritate Initiator Group was not found"
+							}
+					} else # -not initiator_group_name
+					{	write-warning "No Computer Name, or Initiator Group Name or ID was passed in, Assuming create a new Initiator Group for This Computer."
+						$computername = (hostname)
+						write-warning "Checking to see if localhost has Initiator Group defined."
+						if ( $z=$( get-niminitiatorgroup -computername $computername ) )
+							{	$initiator_group_id = $($z.id)
+								write-host "Successfully Found Initiator Group $($z.name)"
+							} else
+							{	Write-warning "Using group name $name the appropritate Initiator Group was not found"
+							}				
+					}
+			}
+		} else # Initiator Group ID was SET
+		{ 	if ( $z = $( get-niminitiatorgroup -id $initiator_group_id ) )
+				{	$initiator_group_name = $z.name
+				} else
+				{	write-error "The supplied Initiator ID was not found"
+				}
+			if ( $computername )
+				{	if ( -not $( Z_test-nimPSRemote $computername ) )
+						{ 	write-warning "Cannot validate the computer named $computername"
+						}
+				} else
+				{	if ( Z_test-nimPSRemote $initiator_group_name )
+						{ 	$Computername = $Initiator_group_name
+							write-warning "Initiator Group name matches a valid hostname, setting computer name to $Computername"	
+						} else
+						{	Write-warning "Using Computername $computername the appropritate Initiator Group was not found"
+						}
+				}
+		}
+		
+		# this is where the command actually gets executed
+	if ( $initiator_group_id ) # if I dont have this I cant do anything
+		{	if ($access_protocol -like "iscsi")
+				{	if ( Z_test-nimPSRemote $computername )
+						{	# lets attempt to get the IQN from the host
+							if ( -not $iqn ) 
+								{ $iqn = invoke-command -computername $computername -scriptblock { (get-initiatorport | where {$_.connectiontype -like "iscsi"}).nodeaddress }
+								}
+						}
+					write-host "Creating Initiator"
+					$qiqn=""""+$iqn+""""
+					$qip=""""+"*"+""""
+					if ( $PSCmdlet.ShouldProcess('Issuing Command to Create Initiator Group') )
+						{ 	# The Creation command goes here.
+							write-host "Executing the following command;"
+							write-host "Remove-nsinitiator -access_protocol $access_protocol -initiator_group_id $Initiator_Group_Id -ip_address $qip -iqn $qiqn"							
+							Remove-nsinitiator -access_protocol $access_protocol -initiator_group_id $Initiator_Group_Id -ip_address $qip -iqn $qiqn -erroraction silentlycontinue
+						} else
+						{ 	# since the command was sent using the WHATIF flag, just inform the user what we WOULD have donewrite-host
+							write-warning "This is the what-if or Initiator group failed required criteria: following command would be executed;"
+							write-warning "Remove-NSInitiator -Initiator_Group_ID $Initiator_Group_Id -access_protocol $access_protocol -iqn $iqn"		
+						}
+				} else # access_protocol must be FC
+				{	# Must be FC, Checking if FC ports exist on this server 
+					if ( $computername )
+						{	if ( $wwpndetected = invoke-command -computername $computername -scriptblock { (get-initiatorport | where {$_.connectiontype -like "Fibre Channel"}).nodeaddress } )
+								{	foreach ( $wwpnfixed in $wwpndetected )
+										{	$wwpnset+=$( Z_fix-NIMHostWWPN $wwpnfixed  )
+										}
+								}
+						} else
+						{	$wwpnset = $wwpn
+						}
+					if ( $wwpnset)
+						{	write-host "Removing FC Initiator groups"
+							$count=1
+							foreach ($wwpni in $wwpnset)
+								{	if ( $PSCmdlet.ShouldProcess('Issuing Command to Create Initiator Group') )
+										{ 	# The Creation command goes here.
+											write-host "Executing the following command;"
+											write-host "remove-NSInitiator -Initiator_Group_ID $Initiator_Group_ID -access_protocol $access_protocol -wwpn $wwpni"
+											$r= invoke-command -scriptblock { $( remove-nsinitiator -Initiator_Group_Id $id -access_protocol $access_protocol -wwpn $wwpni ) }
+											$r.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+											$returnarray+=$r
+										} else
+										{ 	# since the command was sent using the WHATIF flag, just inform the user what we WOULD have donewrite-host
+											write-warning "This is the what-if or Initiator group failed required criteria: following command would be executed;"
+											write-warning "Remove-NSInitiator -Initiator_Group_ID $initiator_group_id -access_protocol $access_protocol -wwpn $wwpni"		
+										}
+									$count=$count+1
+								}
+						} else
+						{	write-error "No WWPNs were either discovered or provided"
+						}
+				}
+		}
+	write-verbose ""
+	write-verbose "-------------------------------"
+	write-verbose "- Computername = $computername"
+	write-verbose "- Initiator_Group_Name = $initator_group_name"
+	write-verbose "- Initiator_Group_ID   = $initiator_group_id"
+	write-verbose "- Access_Protocol = $access_protocol"
+	write-verbose "- IP_Address = $IP_Address"
+	write-verbose "- IQN = $iqn"
+	write-verbose "- WWPN = $wwpn"
+	write-verbose "-------------------------------"
+	write-verbose "END OF Remove-NIMInitiator Command"
+	$returnarray.PSObject.TypeNames.Insert(0,'Nimble.Initiator.Typename')
+	return $returnarray
+} # end the function
+export-modulemember -function Remove-NimInitiator
