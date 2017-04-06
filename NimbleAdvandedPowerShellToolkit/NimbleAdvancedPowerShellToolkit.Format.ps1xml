@@ -2,8 +2,9 @@
 <Configuration>
     <ViewDefinitions>
       	<View>
-			<Name>Default</Name>
-            <ViewSelectedBy>
+			
+			<Name>DefaultInitiatorGroup</Name>
+		    <ViewSelectedBy>
                 <TypeName>Nimble.InitiatorGroup.Typename</TypeName>
             </ViewSelectedBy>
             <TableControl>
@@ -51,6 +52,61 @@
                     </TableRowEntry>
                 </TableRowEntries>
             </TableControl>
+		</View>
+		
+		<View>
+			<Name>DefaultInitiator</Name>
+			<ViewSelectedBy>
+                <TypeName>Nimble.Initiator.Typename</TypeName>
+            </ViewSelectedBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader>
+                        <Label>initiator_group_name</Label>
+						<!--<AutoSize/>-->
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>initiator_group_id</Label>
+						<Width>42</Width>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>access_ protocol</Label>
+						<Width>6</Width>
+                    </TableColumnHeader>
+                    <TableColumnHeader>
+                        <Label>wwpn</Label>
+						<Width>24</Width>
+                    </TableColumnHeader>
+					<TableColumnHeader>
+                        <Label>iqn</Label>
+						<Width>24</Width>
+                    </TableColumnHeader>
+
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <Wrap />
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>initiator_group_name</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>initiator_group_id</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>access_protocol</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>wwpn</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>iqn</PropertyName>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+			
         </View>
     </ViewDefinitions>
 </Configuration>
