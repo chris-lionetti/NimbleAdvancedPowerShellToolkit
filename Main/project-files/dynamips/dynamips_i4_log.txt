@@ -1,0 +1,9 @@
+May 21 02:08:25.806 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:08:25.806 HYPERVISOR: Started on IP = localhost, TCP port = 51385.
+May 21 02:08:26.283 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:08:26.283 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\GNS3\projects\Main\project-files\dynamips 
+May 21 02:08:26.283 GENERAL: working_dir=C:\Users\student\GNS3\projects\Main\project-files\dynamips
+May 21 02:08:26.283 HYPERVISOR: exec_cmd: nio_bridge create Hub1 
+May 21 02:09:28.029 HYPERVISOR: exec_cmd: nio create_udp udp-2b3b79ff-8c0a-444b-b111-977cbfa47f28 10017 127.0.0.1 10016 
+May 21 02:09:28.029 HYPERVISOR: exec_cmd: nio_bridge add_nio Hub1 udp-2b3b79ff-8c0a-444b-b111-977cbfa47f28 
+May 21 02:11:48.197 HYPERVISOR: exec_cmd: nio_bridge rename Hub1 WAP 

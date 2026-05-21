@@ -1,0 +1,18 @@
+May 21 02:29:11.795 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:29:11.795 HYPERVISOR: Started on IP = localhost, TCP port = 56015.
+May 21 02:29:12.100 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:29:12.109 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\Desktop\Main\project-files\dynamips 
+May 21 02:29:12.109 GENERAL: working_dir=C:\Users\student\Desktop\Main\project-files\dynamips
+May 21 02:29:12.109 HYPERVISOR: exec_cmd: ethsw create SwitchSW1M 
+May 21 02:29:16.466 HYPERVISOR: exec_cmd: nio create_udp udp-70154e81-6ee5-4146-b751-2e5c84ae8d1d 10021 127.0.0.1 10020 
+May 21 02:29:16.466 HYPERVISOR: exec_cmd: ethsw add_nio SwitchSW1M udp-70154e81-6ee5-4146-b751-2e5c84ae8d1d 
+May 21 02:29:16.481 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1M udp-70154e81-6ee5-4146-b751-2e5c84ae8d1d 1 
+May 21 02:29:16.544 HYPERVISOR: exec_cmd: nio create_udp udp-5a3c85c2-3a10-4bca-af5f-fb07075040e5 10023 127.0.0.1 10022 
+May 21 02:29:16.544 HYPERVISOR: exec_cmd: ethsw add_nio SwitchSW1M udp-5a3c85c2-3a10-4bca-af5f-fb07075040e5 
+May 21 02:29:16.575 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1M udp-5a3c85c2-3a10-4bca-af5f-fb07075040e5 1 
+May 21 02:29:16.638 HYPERVISOR: exec_cmd: nio create_udp udp-3110a35a-16ed-44a9-8045-c74e08831ebd 10025 127.0.0.1 10024 
+May 21 02:29:16.638 HYPERVISOR: exec_cmd: ethsw add_nio SwitchSW1M udp-3110a35a-16ed-44a9-8045-c74e08831ebd 
+May 21 02:29:16.669 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1M udp-3110a35a-16ed-44a9-8045-c74e08831ebd 1 
+May 21 02:29:16.716 HYPERVISOR: exec_cmd: nio create_udp udp-2d4e7d25-6170-44b0-a32e-6f808c712193 10026 127.0.0.1 10027 
+May 21 02:29:16.716 HYPERVISOR: exec_cmd: ethsw add_nio SwitchSW1M udp-2d4e7d25-6170-44b0-a32e-6f808c712193 
+May 21 02:29:16.731 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1M udp-2d4e7d25-6170-44b0-a32e-6f808c712193 1 

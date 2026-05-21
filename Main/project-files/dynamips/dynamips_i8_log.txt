@@ -1,0 +1,10 @@
+May 21 02:15:03.349 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:15:03.349 HYPERVISOR: Started on IP = localhost, TCP port = 52412.
+May 21 02:15:03.823 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:15:03.823 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\GNS3\projects\Main\project-files\dynamips 
+May 21 02:15:03.827 GENERAL: working_dir=C:\Users\student\GNS3\projects\Main\project-files\dynamips
+May 21 02:15:03.827 HYPERVISOR: exec_cmd: ethsw create Switch4 
+May 21 02:22:03.219 HYPERVISOR: exec_cmd: ethsw rename Switch4 DMZ 
+May 21 02:26:05.535 HYPERVISOR: exec_cmd: nio create_udp udp-93ebacdb-e7d4-4020-a66a-2b7473af088f 10033 127.0.0.1 10032 
+May 21 02:26:05.535 HYPERVISOR: exec_cmd: ethsw add_nio DMZ udp-93ebacdb-e7d4-4020-a66a-2b7473af088f 
+May 21 02:26:05.566 HYPERVISOR: exec_cmd: ethsw set_access_port DMZ udp-93ebacdb-e7d4-4020-a66a-2b7473af088f 1 

@@ -1,0 +1,61 @@
+May 21 02:08:12.807 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:08:12.807 HYPERVISOR: Started on IP = localhost, TCP port = 51363.
+May 21 02:08:13.282 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:08:13.282 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\GNS3\projects\Main\project-files\dynamips 
+May 21 02:08:13.282 GENERAL: working_dir=C:\Users\student\GNS3\projects\Main\project-files\dynamips
+May 21 02:08:13.282 HYPERVISOR: exec_cmd: ethsw create Switch2 
+May 21 02:08:48.022 HYPERVISOR: exec_cmd: nio create_udp udp-765b7eda-a116-42f5-8ba9-1176ce6a2e5a 10003 127.0.0.1 10002 
+May 21 02:08:48.037 HYPERVISOR: exec_cmd: ethsw add_nio Switch2 udp-765b7eda-a116-42f5-8ba9-1176ce6a2e5a 
+May 21 02:08:48.053 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-765b7eda-a116-42f5-8ba9-1176ce6a2e5a 1 
+May 21 02:08:52.251 HYPERVISOR: exec_cmd: nio create_udp udp-87ab1e11-d70d-4025-88cf-2daad7ca869e 10005 127.0.0.1 10004 
+May 21 02:08:52.267 HYPERVISOR: exec_cmd: ethsw add_nio Switch2 udp-87ab1e11-d70d-4025-88cf-2daad7ca869e 
+May 21 02:08:52.299 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-87ab1e11-d70d-4025-88cf-2daad7ca869e 1 
+May 21 02:08:57.178 HYPERVISOR: exec_cmd: nio create_udp udp-52fc0bc1-d52d-4352-989d-194da479b32e 10007 127.0.0.1 10006 
+May 21 02:08:57.178 HYPERVISOR: exec_cmd: ethsw add_nio Switch2 udp-52fc0bc1-d52d-4352-989d-194da479b32e 
+May 21 02:08:57.210 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-52fc0bc1-d52d-4352-989d-194da479b32e 1 
+May 21 02:09:02.365 HYPERVISOR: exec_cmd: nio create_udp udp-98771373-b28d-4b6a-84e6-1bd152159f2b 10009 127.0.0.1 10008 
+May 21 02:09:02.369 HYPERVISOR: exec_cmd: ethsw add_nio Switch2 udp-98771373-b28d-4b6a-84e6-1bd152159f2b 
+May 21 02:09:02.400 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-98771373-b28d-4b6a-84e6-1bd152159f2b 1 
+May 21 02:09:07.866 HYPERVISOR: exec_cmd: nio create_udp udp-0cf17e18-0d32-4039-b2b6-93b927f28d70 10011 127.0.0.1 10010 
+May 21 02:09:07.866 HYPERVISOR: exec_cmd: ethsw add_nio Switch2 udp-0cf17e18-0d32-4039-b2b6-93b927f28d70 
+May 21 02:09:07.871 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-0cf17e18-0d32-4039-b2b6-93b927f28d70 1 
+May 21 02:09:17.991 HYPERVISOR: exec_cmd: nio create_udp udp-f52ef7d0-1ff5-47b7-be83-fadfa8dcb71d 10012 127.0.0.1 10013 
+May 21 02:09:17.991 HYPERVISOR: exec_cmd: ethsw add_nio Switch2 udp-f52ef7d0-1ff5-47b7-be83-fadfa8dcb71d 
+May 21 02:09:18.022 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-f52ef7d0-1ff5-47b7-be83-fadfa8dcb71d 1 
+May 21 02:10:03.093 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-f52ef7d0-1ff5-47b7-be83-fadfa8dcb71d 1 
+May 21 02:10:03.093 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-765b7eda-a116-42f5-8ba9-1176ce6a2e5a 1 
+May 21 02:10:03.315 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-87ab1e11-d70d-4025-88cf-2daad7ca869e 1 
+May 21 02:10:03.315 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-52fc0bc1-d52d-4352-989d-194da479b32e 1 
+May 21 02:10:03.315 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-98771373-b28d-4b6a-84e6-1bd152159f2b 1 
+May 21 02:10:03.315 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-0cf17e18-0d32-4039-b2b6-93b927f28d70 1 
+May 21 02:10:58.557 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-f52ef7d0-1ff5-47b7-be83-fadfa8dcb71d 1 
+May 21 02:10:58.620 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-765b7eda-a116-42f5-8ba9-1176ce6a2e5a 1 
+May 21 02:10:58.667 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-87ab1e11-d70d-4025-88cf-2daad7ca869e 1 
+May 21 02:10:58.667 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-52fc0bc1-d52d-4352-989d-194da479b32e 1 
+May 21 02:10:58.684 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-98771373-b28d-4b6a-84e6-1bd152159f2b 1 
+May 21 02:10:58.684 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-0cf17e18-0d32-4039-b2b6-93b927f28d70 1 
+May 21 02:11:11.379 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-f52ef7d0-1ff5-47b7-be83-fadfa8dcb71d 1 
+May 21 02:11:11.379 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-765b7eda-a116-42f5-8ba9-1176ce6a2e5a 1 
+May 21 02:11:11.379 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-87ab1e11-d70d-4025-88cf-2daad7ca869e 1 
+May 21 02:11:11.379 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-52fc0bc1-d52d-4352-989d-194da479b32e 1 
+May 21 02:11:11.379 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-98771373-b28d-4b6a-84e6-1bd152159f2b 1 
+May 21 02:11:11.379 HYPERVISOR: exec_cmd: ethsw set_access_port Switch2 udp-0cf17e18-0d32-4039-b2b6-93b927f28d70 1 
+May 21 02:13:35.098 HYPERVISOR: exec_cmd: ethsw rename Switch2 SwitchSW2A 
+May 21 02:13:35.098 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-f52ef7d0-1ff5-47b7-be83-fadfa8dcb71d 1 
+May 21 02:13:35.098 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-765b7eda-a116-42f5-8ba9-1176ce6a2e5a 1 
+May 21 02:13:35.098 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-87ab1e11-d70d-4025-88cf-2daad7ca869e 1 
+May 21 02:13:35.114 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-52fc0bc1-d52d-4352-989d-194da479b32e 1 
+May 21 02:13:35.114 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-98771373-b28d-4b6a-84e6-1bd152159f2b 1 
+May 21 02:13:35.114 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-0cf17e18-0d32-4039-b2b6-93b927f28d70 1 
+May 21 02:13:35.193 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-f52ef7d0-1ff5-47b7-be83-fadfa8dcb71d 1 
+May 21 02:13:35.193 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-765b7eda-a116-42f5-8ba9-1176ce6a2e5a 1 
+May 21 02:13:35.193 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-87ab1e11-d70d-4025-88cf-2daad7ca869e 1 
+May 21 02:13:35.193 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-52fc0bc1-d52d-4352-989d-194da479b32e 1 
+May 21 02:13:35.193 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-98771373-b28d-4b6a-84e6-1bd152159f2b 1 
+May 21 02:13:35.193 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-0cf17e18-0d32-4039-b2b6-93b927f28d70 1 
+May 21 02:13:39.526 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-f52ef7d0-1ff5-47b7-be83-fadfa8dcb71d 1 
+May 21 02:13:39.811 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-765b7eda-a116-42f5-8ba9-1176ce6a2e5a 1 
+May 21 02:13:39.811 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-87ab1e11-d70d-4025-88cf-2daad7ca869e 1 
+May 21 02:13:39.811 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-52fc0bc1-d52d-4352-989d-194da479b32e 1 
+May 21 02:13:39.811 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-98771373-b28d-4b6a-84e6-1bd152159f2b 1 
+May 21 02:13:39.811 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW2A udp-0cf17e18-0d32-4039-b2b6-93b927f28d70 1 

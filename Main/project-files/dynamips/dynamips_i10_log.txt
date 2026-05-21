@@ -1,0 +1,12 @@
+May 21 02:29:05.975 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:29:05.975 HYPERVISOR: Started on IP = localhost, TCP port = 55995.
+May 21 02:29:06.436 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:29:06.436 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\Desktop\Main\project-files\dynamips 
+May 21 02:29:06.436 GENERAL: working_dir=C:\Users\student\Desktop\Main\project-files\dynamips
+May 21 02:29:06.436 HYPERVISOR: exec_cmd: ethsw create SwitchSW1A 
+May 21 02:29:15.309 HYPERVISOR: exec_cmd: nio create_udp udp-4847e354-c652-4300-8d0b-622a9ac06bb7 10000 127.0.0.1 10001 
+May 21 02:29:15.309 HYPERVISOR: exec_cmd: ethsw add_nio SwitchSW1A udp-4847e354-c652-4300-8d0b-622a9ac06bb7 
+May 21 02:29:15.325 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1A udp-4847e354-c652-4300-8d0b-622a9ac06bb7 1 
+May 21 02:29:15.950 HYPERVISOR: exec_cmd: nio create_udp udp-7873b71e-002b-48b1-9629-be24ce2d8c11 10014 127.0.0.1 10015 
+May 21 02:29:15.950 HYPERVISOR: exec_cmd: ethsw add_nio SwitchSW1A udp-7873b71e-002b-48b1-9629-be24ce2d8c11 
+May 21 02:29:15.981 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1A udp-7873b71e-002b-48b1-9629-be24ce2d8c11 1 
