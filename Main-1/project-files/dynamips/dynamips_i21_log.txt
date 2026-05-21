@@ -1,0 +1,14 @@
+May 21 02:44:50.206 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:44:50.206 HYPERVISOR: Started on IP = localhost, TCP port = 57434.
+May 21 02:44:50.643 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:44:50.643 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\Desktop\Main\project-files\dynamips 
+May 21 02:44:50.643 GENERAL: working_dir=C:\Users\student\Desktop\Main\project-files\dynamips
+May 21 02:44:50.643 HYPERVISOR: exec_cmd: ethsw create Switch3 
+May 21 02:46:27.441 HYPERVISOR: exec_cmd: nio create_udp udp-1a1fabca-d075-40dd-a97d-0bc9625ce195 10050 127.0.0.1 10051 
+May 21 02:46:27.457 HYPERVISOR: exec_cmd: ethsw add_nio Switch3 udp-1a1fabca-d075-40dd-a97d-0bc9625ce195 
+May 21 02:46:27.473 HYPERVISOR: exec_cmd: ethsw set_access_port Switch3 udp-1a1fabca-d075-40dd-a97d-0bc9625ce195 1 
+May 21 02:46:37.270 HYPERVISOR: exec_cmd: ethsw set_access_port Switch3 udp-1a1fabca-d075-40dd-a97d-0bc9625ce195 1 
+May 21 02:47:13.076 HYPERVISOR: exec_cmd: ethsw rename Switch3 WAP1 
+May 21 02:47:13.083 HYPERVISOR: exec_cmd: ethsw set_access_port WAP1 udp-1a1fabca-d075-40dd-a97d-0bc9625ce195 1 
+May 21 02:47:13.177 HYPERVISOR: exec_cmd: ethsw set_access_port WAP1 udp-1a1fabca-d075-40dd-a97d-0bc9625ce195 1 
+May 21 02:47:51.043 HYPERVISOR: exec_cmd: ethsw set_access_port WAP1 udp-1a1fabca-d075-40dd-a97d-0bc9625ce195 1 

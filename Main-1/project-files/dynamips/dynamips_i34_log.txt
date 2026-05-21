@@ -1,0 +1,9 @@
+May 21 02:51:13.445 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:51:13.445 HYPERVISOR: Started on IP = localhost, TCP port = 57823.
+May 21 02:51:13.883 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:51:13.883 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\Desktop\Main-1\project-files\dynamips 
+May 21 02:51:13.883 GENERAL: working_dir=C:\Users\student\Desktop\Main-1\project-files\dynamips
+May 21 02:51:13.883 HYPERVISOR: exec_cmd: ethsw create WAP1 
+May 21 02:51:19.108 HYPERVISOR: exec_cmd: nio create_udp udp-c59a4203-99ee-41ce-bb60-7e567c40ec60 10104 127.0.0.1 10105 
+May 21 02:51:19.118 HYPERVISOR: exec_cmd: ethsw add_nio WAP1 udp-c59a4203-99ee-41ce-bb60-7e567c40ec60 
+May 21 02:51:19.124 HYPERVISOR: exec_cmd: ethsw set_access_port WAP1 udp-c59a4203-99ee-41ce-bb60-7e567c40ec60 1 

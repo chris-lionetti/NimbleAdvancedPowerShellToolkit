@@ -1,0 +1,12 @@
+May 21 02:51:08.398 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:51:08.398 HYPERVISOR: Started on IP = localhost, TCP port = 57789.
+May 21 02:51:08.828 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:51:08.828 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\Desktop\Main-1\project-files\dynamips 
+May 21 02:51:08.828 GENERAL: working_dir=C:\Users\student\Desktop\Main-1\project-files\dynamips
+May 21 02:51:08.828 HYPERVISOR: exec_cmd: ethsw create CoreSwitch 
+May 21 02:51:17.524 HYPERVISOR: exec_cmd: nio create_udp udp-5aac457c-1e58-4a54-a3a9-abd7ace20b57 10081 127.0.0.1 10080 
+May 21 02:51:17.540 HYPERVISOR: exec_cmd: ethsw add_nio CoreSwitch udp-5aac457c-1e58-4a54-a3a9-abd7ace20b57 
+May 21 02:51:17.572 HYPERVISOR: exec_cmd: ethsw set_access_port CoreSwitch udp-5aac457c-1e58-4a54-a3a9-abd7ace20b57 1 
+May 21 02:51:17.635 HYPERVISOR: exec_cmd: nio create_udp udp-9bef6896-b698-4b14-839f-42bb554c9ff7 10082 127.0.0.1 10083 
+May 21 02:51:17.635 HYPERVISOR: exec_cmd: ethsw add_nio CoreSwitch udp-9bef6896-b698-4b14-839f-42bb554c9ff7 
+May 21 02:51:17.667 HYPERVISOR: exec_cmd: ethsw set_access_port CoreSwitch udp-9bef6896-b698-4b14-839f-42bb554c9ff7 1 

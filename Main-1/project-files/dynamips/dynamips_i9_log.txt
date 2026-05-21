@@ -1,0 +1,14 @@
+May 21 02:15:13.885 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:15:13.885 HYPERVISOR: Started on IP = localhost, TCP port = 52422.
+May 21 02:15:14.371 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:15:14.371 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\GNS3\projects\Main\project-files\dynamips 
+May 21 02:15:14.371 GENERAL: working_dir=C:\Users\student\GNS3\projects\Main\project-files\dynamips
+May 21 02:15:14.371 HYPERVISOR: exec_cmd: ethsw create Switch5 
+May 21 02:23:04.921 HYPERVISOR: exec_cmd: ethsw rename Switch5 RouterRM 
+May 21 02:23:20.447 HYPERVISOR: exec_cmd: ethsw rename RouterRM RouterM 
+May 21 02:26:01.394 HYPERVISOR: exec_cmd: nio create_udp udp-8de2a737-ca5a-43e7-b19d-07c119b44fa1 10031 127.0.0.1 10030 
+May 21 02:26:01.394 HYPERVISOR: exec_cmd: ethsw add_nio RouterM udp-8de2a737-ca5a-43e7-b19d-07c119b44fa1 
+May 21 02:26:01.410 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-8de2a737-ca5a-43e7-b19d-07c119b44fa1 1 
+May 21 02:26:21.723 HYPERVISOR: exec_cmd: nio create_udp udp-7a53cfab-b4b5-43d2-b811-81a9f3556a04 10035 127.0.0.1 10034 
+May 21 02:26:21.723 HYPERVISOR: exec_cmd: ethsw add_nio RouterM udp-7a53cfab-b4b5-43d2-b811-81a9f3556a04 
+May 21 02:26:21.754 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-7a53cfab-b4b5-43d2-b811-81a9f3556a04 1 

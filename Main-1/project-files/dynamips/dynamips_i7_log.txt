@@ -1,0 +1,20 @@
+May 21 02:14:55.132 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:14:55.132 HYPERVISOR: Started on IP = localhost, TCP port = 52398.
+May 21 02:14:55.592 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:14:55.592 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\GNS3\projects\Main\project-files\dynamips 
+May 21 02:14:55.592 GENERAL: working_dir=C:\Users\student\GNS3\projects\Main\project-files\dynamips
+May 21 02:14:55.592 HYPERVISOR: exec_cmd: ethsw create Switch3 
+May 21 02:21:38.084 HYPERVISOR: exec_cmd: ethsw rename Switch3 SwitchSW2M 
+May 21 02:21:50.920 HYPERVISOR: exec_cmd: ethsw rename SwitchSW2M Firewall 
+May 21 02:25:55.597 HYPERVISOR: exec_cmd: nio create_udp udp-5aaa08b3-00c6-4adc-bdf2-cda482b66aff 10029 127.0.0.1 10028 
+May 21 02:25:55.597 HYPERVISOR: exec_cmd: ethsw add_nio Firewall udp-5aaa08b3-00c6-4adc-bdf2-cda482b66aff 
+May 21 02:25:55.625 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-5aaa08b3-00c6-4adc-bdf2-cda482b66aff 1 
+May 21 02:26:01.348 HYPERVISOR: exec_cmd: nio create_udp udp-00bc3c3b-550c-47fb-9da8-0fd6b5a0a9ca 10030 127.0.0.1 10031 
+May 21 02:26:01.348 HYPERVISOR: exec_cmd: ethsw add_nio Firewall udp-00bc3c3b-550c-47fb-9da8-0fd6b5a0a9ca 
+May 21 02:26:01.379 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-00bc3c3b-550c-47fb-9da8-0fd6b5a0a9ca 1 
+May 21 02:26:05.516 HYPERVISOR: exec_cmd: nio create_udp udp-149deb7e-cf73-47fc-8f7b-f43564d747af 10032 127.0.0.1 10033 
+May 21 02:26:05.516 HYPERVISOR: exec_cmd: ethsw add_nio Firewall udp-149deb7e-cf73-47fc-8f7b-f43564d747af 
+May 21 02:26:05.531 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-149deb7e-cf73-47fc-8f7b-f43564d747af 1 
+May 21 02:28:26.912 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-5aaa08b3-00c6-4adc-bdf2-cda482b66aff 1 
+May 21 02:28:26.912 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-149deb7e-cf73-47fc-8f7b-f43564d747af 1 
+May 21 02:28:26.912 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-00bc3c3b-550c-47fb-9da8-0fd6b5a0a9ca 1 

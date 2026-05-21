@@ -1,0 +1,21 @@
+May 21 02:08:03.959 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:08:03.964 HYPERVISOR: Started on IP = localhost, TCP port = 51352.
+May 21 02:08:04.313 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:08:04.313 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\GNS3\projects\Main\project-files\dynamips 
+May 21 02:08:04.376 GENERAL: working_dir=C:\Users\student\GNS3\projects\Main\project-files\dynamips
+May 21 02:08:04.376 HYPERVISOR: exec_cmd: ethsw create Switch1 
+May 21 02:08:42.037 HYPERVISOR: exec_cmd: nio create_udp udp-948202d9-e7e3-480b-a49f-74706222af45 10000 127.0.0.1 10001 
+May 21 02:08:42.068 HYPERVISOR: exec_cmd: ethsw add_nio Switch1 udp-948202d9-e7e3-480b-a49f-74706222af45 
+May 21 02:08:42.085 HYPERVISOR: exec_cmd: ethsw set_access_port Switch1 udp-948202d9-e7e3-480b-a49f-74706222af45 1 
+May 21 02:09:23.135 HYPERVISOR: exec_cmd: nio create_udp udp-536d4b9a-ed05-4b9a-aae4-14dd5ae25327 10014 127.0.0.1 10015 
+May 21 02:09:23.135 HYPERVISOR: exec_cmd: ethsw add_nio Switch1 udp-536d4b9a-ed05-4b9a-aae4-14dd5ae25327 
+May 21 02:09:23.167 HYPERVISOR: exec_cmd: ethsw set_access_port Switch1 udp-536d4b9a-ed05-4b9a-aae4-14dd5ae25327 1 
+May 21 02:11:07.599 HYPERVISOR: exec_cmd: ethsw set_access_port Switch1 udp-948202d9-e7e3-480b-a49f-74706222af45 1 
+May 21 02:11:07.599 HYPERVISOR: exec_cmd: ethsw set_access_port Switch1 udp-536d4b9a-ed05-4b9a-aae4-14dd5ae25327 1 
+May 21 02:13:19.900 HYPERVISOR: exec_cmd: ethsw rename Switch1 SwitchSW1A 
+May 21 02:13:19.916 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1A udp-948202d9-e7e3-480b-a49f-74706222af45 1 
+May 21 02:13:19.916 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1A udp-536d4b9a-ed05-4b9a-aae4-14dd5ae25327 1 
+May 21 02:13:21.061 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1A udp-948202d9-e7e3-480b-a49f-74706222af45 1 
+May 21 02:13:21.078 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1A udp-536d4b9a-ed05-4b9a-aae4-14dd5ae25327 1 
+May 21 02:13:27.431 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1A udp-948202d9-e7e3-480b-a49f-74706222af45 1 
+May 21 02:13:27.431 HYPERVISOR: exec_cmd: ethsw set_access_port SwitchSW1A udp-536d4b9a-ed05-4b9a-aae4-14dd5ae25327 1 

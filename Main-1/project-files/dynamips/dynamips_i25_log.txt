@@ -1,0 +1,18 @@
+May 21 02:51:05.617 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:51:05.617 HYPERVISOR: Started on IP = localhost, TCP port = 57774.
+May 21 02:51:06.071 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:51:06.071 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\Desktop\Main-1\project-files\dynamips 
+May 21 02:51:06.071 GENERAL: working_dir=C:\Users\student\Desktop\Main-1\project-files\dynamips
+May 21 02:51:06.071 HYPERVISOR: exec_cmd: ethsw create RouterA 
+May 21 02:51:16.524 HYPERVISOR: exec_cmd: nio create_udp udp-ad934ea9-80b0-4c0c-97e0-f9cc6ee7bd7f 10067 127.0.0.1 10066 
+May 21 02:51:16.534 HYPERVISOR: exec_cmd: ethsw add_nio RouterA udp-ad934ea9-80b0-4c0c-97e0-f9cc6ee7bd7f 
+May 21 02:51:16.550 HYPERVISOR: exec_cmd: ethsw set_access_port RouterA udp-ad934ea9-80b0-4c0c-97e0-f9cc6ee7bd7f 1 
+May 21 02:51:16.649 HYPERVISOR: exec_cmd: nio create_udp udp-26f307d4-dcd2-4cae-9a41-1878a04d366f 10069 127.0.0.1 10068 
+May 21 02:51:16.660 HYPERVISOR: exec_cmd: ethsw add_nio RouterA udp-26f307d4-dcd2-4cae-9a41-1878a04d366f 
+May 21 02:51:16.676 HYPERVISOR: exec_cmd: ethsw set_access_port RouterA udp-26f307d4-dcd2-4cae-9a41-1878a04d366f 1 
+May 21 02:51:16.742 HYPERVISOR: exec_cmd: nio create_udp udp-8f9f0737-3768-4f19-a714-82cb1977f6ad 10070 127.0.0.1 10071 
+May 21 02:51:16.742 HYPERVISOR: exec_cmd: ethsw add_nio RouterA udp-8f9f0737-3768-4f19-a714-82cb1977f6ad 
+May 21 02:51:16.774 HYPERVISOR: exec_cmd: ethsw set_access_port RouterA udp-8f9f0737-3768-4f19-a714-82cb1977f6ad 1 
+May 21 02:51:17.098 HYPERVISOR: exec_cmd: nio create_udp udp-96cb9dc6-bf1c-43bd-b2c6-0c83ca2b60b5 10073 127.0.0.1 10072 
+May 21 02:51:17.098 HYPERVISOR: exec_cmd: ethsw add_nio RouterA udp-96cb9dc6-bf1c-43bd-b2c6-0c83ca2b60b5 
+May 21 02:51:17.129 HYPERVISOR: exec_cmd: ethsw set_access_port RouterA udp-96cb9dc6-bf1c-43bd-b2c6-0c83ca2b60b5 1 

@@ -1,0 +1,20 @@
+May 21 02:29:14.081 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:29:14.081 HYPERVISOR: Started on IP = localhost, TCP port = 56048.
+May 21 02:29:14.522 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:29:14.522 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\Desktop\Main\project-files\dynamips 
+May 21 02:29:14.522 GENERAL: working_dir=C:\Users\student\Desktop\Main\project-files\dynamips
+May 21 02:29:14.522 HYPERVISOR: exec_cmd: ethsw create RouterM 
+May 21 02:29:17.585 HYPERVISOR: exec_cmd: nio create_udp udp-db5c3247-b559-4160-94c9-04cac38e6e15 10031 127.0.0.1 10030 
+May 21 02:29:17.601 HYPERVISOR: exec_cmd: ethsw add_nio RouterM udp-db5c3247-b559-4160-94c9-04cac38e6e15 
+May 21 02:29:17.622 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-db5c3247-b559-4160-94c9-04cac38e6e15 1 
+May 21 02:29:18.278 HYPERVISOR: exec_cmd: nio create_udp udp-8a73c1f4-0842-471f-b0dd-6fc3145b2688 10035 127.0.0.1 10034 
+May 21 02:29:18.278 HYPERVISOR: exec_cmd: ethsw add_nio RouterM udp-8a73c1f4-0842-471f-b0dd-6fc3145b2688 
+May 21 02:29:18.310 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-8a73c1f4-0842-471f-b0dd-6fc3145b2688 1 
+May 21 02:40:12.559 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-db5c3247-b559-4160-94c9-04cac38e6e15 1 
+May 21 02:40:12.559 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-8a73c1f4-0842-471f-b0dd-6fc3145b2688 1 
+May 21 02:40:27.765 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-db5c3247-b559-4160-94c9-04cac38e6e15 1 
+May 21 02:40:27.825 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-8a73c1f4-0842-471f-b0dd-6fc3145b2688 1 
+May 21 02:40:29.962 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-db5c3247-b559-4160-94c9-04cac38e6e15 1 
+May 21 02:40:30.025 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-8a73c1f4-0842-471f-b0dd-6fc3145b2688 1 
+May 21 02:40:30.703 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-db5c3247-b559-4160-94c9-04cac38e6e15 1 
+May 21 02:40:30.765 HYPERVISOR: exec_cmd: ethsw set_access_port RouterM udp-8a73c1f4-0842-471f-b0dd-6fc3145b2688 1 

@@ -1,0 +1,12 @@
+May 21 02:29:13.472 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:29:13.472 HYPERVISOR: Started on IP = localhost, TCP port = 56045.
+May 21 02:29:13.940 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:29:13.940 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\Desktop\Main\project-files\dynamips 
+May 21 02:29:13.940 GENERAL: working_dir=C:\Users\student\Desktop\Main\project-files\dynamips
+May 21 02:29:13.940 HYPERVISOR: exec_cmd: ethsw create DMZ 
+May 21 02:29:17.792 HYPERVISOR: exec_cmd: nio create_udp udp-f6c44fba-fc99-44a7-b3b6-cd53aab712a6 10033 127.0.0.1 10032 
+May 21 02:29:17.792 HYPERVISOR: exec_cmd: ethsw add_nio DMZ udp-f6c44fba-fc99-44a7-b3b6-cd53aab712a6 
+May 21 02:29:17.808 HYPERVISOR: exec_cmd: ethsw set_access_port DMZ udp-f6c44fba-fc99-44a7-b3b6-cd53aab712a6 1 
+May 21 02:40:28.300 HYPERVISOR: exec_cmd: ethsw set_access_port DMZ udp-f6c44fba-fc99-44a7-b3b6-cd53aab712a6 1 
+May 21 02:40:30.765 HYPERVISOR: exec_cmd: ethsw set_access_port DMZ udp-f6c44fba-fc99-44a7-b3b6-cd53aab712a6 1 
+May 21 02:40:33.123 HYPERVISOR: exec_cmd: ethsw set_access_port DMZ udp-f6c44fba-fc99-44a7-b3b6-cd53aab712a6 1 

@@ -1,0 +1,27 @@
+May 21 02:29:12.878 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+May 21 02:29:12.878 HYPERVISOR: Started on IP = localhost, TCP port = 56042.
+May 21 02:29:13.347 HYPERVISOR: exec_cmd: hypervisor version 
+May 21 02:29:13.347 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\student\Desktop\Main\project-files\dynamips 
+May 21 02:29:13.347 GENERAL: working_dir=C:\Users\student\Desktop\Main\project-files\dynamips
+May 21 02:29:13.347 HYPERVISOR: exec_cmd: ethsw create Firewall 
+May 21 02:29:17.000 HYPERVISOR: exec_cmd: nio create_udp udp-4f87b23b-5662-4126-a316-332d5935c707 10029 127.0.0.1 10028 
+May 21 02:29:17.419 HYPERVISOR: exec_cmd: ethsw add_nio Firewall udp-4f87b23b-5662-4126-a316-332d5935c707 
+May 21 02:29:17.450 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-4f87b23b-5662-4126-a316-332d5935c707 1 
+May 21 02:29:17.551 HYPERVISOR: exec_cmd: nio create_udp udp-ce8701a6-3bde-4f93-b3bb-d5b5cf1481a4 10030 127.0.0.1 10031 
+May 21 02:29:17.551 HYPERVISOR: exec_cmd: ethsw add_nio Firewall udp-ce8701a6-3bde-4f93-b3bb-d5b5cf1481a4 
+May 21 02:29:17.568 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-ce8701a6-3bde-4f93-b3bb-d5b5cf1481a4 1 
+May 21 02:29:17.760 HYPERVISOR: exec_cmd: nio create_udp udp-3cdbfa70-e05f-4120-8264-ac0983d341b5 10032 127.0.0.1 10033 
+May 21 02:29:17.760 HYPERVISOR: exec_cmd: ethsw add_nio Firewall udp-3cdbfa70-e05f-4120-8264-ac0983d341b5 
+May 21 02:29:17.776 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-3cdbfa70-e05f-4120-8264-ac0983d341b5 1 
+May 21 02:40:10.707 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-4f87b23b-5662-4126-a316-332d5935c707 1 
+May 21 02:40:10.707 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-3cdbfa70-e05f-4120-8264-ac0983d341b5 1 
+May 21 02:40:10.707 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-ce8701a6-3bde-4f93-b3bb-d5b5cf1481a4 1 
+May 21 02:40:27.778 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-4f87b23b-5662-4126-a316-332d5935c707 1 
+May 21 02:40:27.828 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-3cdbfa70-e05f-4120-8264-ac0983d341b5 1 
+May 21 02:40:28.063 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-ce8701a6-3bde-4f93-b3bb-d5b5cf1481a4 1 
+May 21 02:40:29.678 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-4f87b23b-5662-4126-a316-332d5935c707 1 
+May 21 02:40:29.734 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-3cdbfa70-e05f-4120-8264-ac0983d341b5 1 
+May 21 02:40:29.734 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-ce8701a6-3bde-4f93-b3bb-d5b5cf1481a4 1 
+May 21 02:40:30.025 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-4f87b23b-5662-4126-a316-332d5935c707 1 
+May 21 02:40:30.041 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-3cdbfa70-e05f-4120-8264-ac0983d341b5 1 
+May 21 02:40:30.088 HYPERVISOR: exec_cmd: ethsw set_access_port Firewall udp-ce8701a6-3bde-4f93-b3bb-d5b5cf1481a4 1 
